@@ -10,6 +10,7 @@
 
 body {
     min-height: 100vh;
+    width: 100%;
 
     font-family: "Poppins", sans-serif;
 
@@ -21,13 +22,23 @@ body {
 
     overflow-x: hidden;
 
+    /* Deep graphite-navy — reads like a timing booth, not a generic gradient card */
     background:
+        radial-gradient(
+            circle at 15% 10%,
+            #1b2740 0%,
+            transparent 55%
+        ),
+        radial-gradient(
+            circle at 85% 90%,
+            #17233a 0%,
+            transparent 55%
+        ),
         linear-gradient(
-            135deg,
-            #071952,
-            #088395,
-            #35a29f,
-            #f9f871
+            160deg,
+            #0a0f1e,
+            #0d1526 55%,
+            #0a0f1e
         );
 
     position: relative;
@@ -43,41 +54,62 @@ body {
 
     border-radius: 50%;
 
-    filter: blur(5px);
+    filter: blur(60px);
 
-    opacity: 0.25;
+    opacity: 0.22;
 
     pointer-events: none;
+
+    animation: drift 14s ease-in-out infinite;
 }
 
 .circle-one {
     width: 300px;
     height: 300px;
 
-    background: #ff5722;
+    background: #ffb703;
 
     top: -100px;
     left: -100px;
+
+    animation-duration: 16s;
 }
 
 .circle-two {
     width: 350px;
     height: 350px;
 
-    background: #9c27b0;
+    background: #38bdf8;
 
     bottom: -150px;
     right: -100px;
+
+    animation-duration: 19s;
+    animation-delay: -4s;
 }
 
 .circle-three {
     width: 180px;
     height: 180px;
 
-    background: #ffeb3b;
+    background: #f43f5e;
 
     top: 40%;
     right: 10%;
+
+    animation-duration: 12s;
+    animation-delay: -7s;
+}
+
+@keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(25px, -20px) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .background-circle {
+        animation: none;
+    }
 }
 
 
@@ -107,7 +139,7 @@ body {
 
     margin-bottom: 20px;
 
-    color: white;
+    color: #e8edf7;
 }
 
 .brand {
@@ -129,35 +161,43 @@ body {
 
     border-radius: 16px;
 
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 183, 3, 0.14);
+
+    border: 1px solid rgba(255, 183, 3, 0.35);
 
     backdrop-filter: blur(10px);
 
     font-size: 25px;
 
-    color: #fff;
+    color: #ffb703;
 }
 
 .brand h1 {
     font-size: 26px;
 
     font-weight: 700;
+
+    color: #f4f7fd;
 }
 
 .brand p {
     font-size: 12px;
 
-    opacity: 0.8;
+    color: #8b96ad;
 }
 
 .task-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
     padding: 8px 15px;
 
     border-radius: 30px;
 
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(56, 189, 248, 0.14);
 
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(56, 189, 248, 0.35);
 
     backdrop-filter: blur(10px);
 
@@ -166,6 +206,12 @@ body {
     font-weight: 600;
 
     letter-spacing: 1px;
+
+    color: #7dd3fc;
+}
+
+.task-badge i {
+    font-size: 10px;
 }
 
 
@@ -180,10 +226,31 @@ body {
 
     border-radius: 28px;
 
-    background: rgba(255, 255, 255, 0.94);
+    background: linear-gradient(180deg, #131c30, #0f1728);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
 
     box-shadow:
-        0 25px 60px rgba(0, 0, 0, 0.25);
+        0 25px 60px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* The whole card picks up a faint emerald glow while the watch is running,
+   so the "live" state reads at a glance, not just from the status pill */
+.stopwatch-card:has(.status.running) {
+    border-color: rgba(52, 211, 153, 0.35);
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(52, 211, 153, 0.12),
+        0 0 40px rgba(52, 211, 153, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.stopwatch-card:has(.status.paused) {
+    border-color: rgba(251, 146, 60, 0.3);
 }
 
 
@@ -204,9 +271,9 @@ body {
 
     border-radius: 30px;
 
-    background: #eef3f7;
+    background: rgba(139, 150, 173, 0.12);
 
-    color: #607080;
+    color: #a7b1c6;
 
     font-size: 13px;
 
@@ -219,20 +286,22 @@ body {
 
     border-radius: 50%;
 
-    background: #78909c;
+    background: #6b7690;
 }
 
 
 /* Running status */
 
 .status.running {
-    background: #e8f5e9;
+    background: rgba(16, 185, 129, 0.14);
 
-    color: #2e7d32;
+    color: #34d399;
 }
 
 .status.running .status-dot {
-    background: #43a047;
+    background: #34d399;
+
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.8);
 
     animation: pulse 1s infinite;
 }
@@ -241,36 +310,44 @@ body {
 /* Paused status */
 
 .status.paused {
-    background: #fff3e0;
+    background: rgba(251, 146, 60, 0.14);
 
-    color: #ef6c00;
+    color: #fb923c;
 }
 
 .status.paused .status-dot {
-    background: #fb8c00;
+    background: #fb923c;
+
+    box-shadow: 0 0 8px rgba(251, 146, 60, 0.8);
 }
 
 
 /* =========================================
-   TIME DISPLAY
+   TIME DISPLAY — LED / scoreboard styling
 ========================================= */
 .time-display {
     display: flex;
     justify-content: center;
     align-items: baseline;
 
-    color: #12263a;
+    color: #ffcb57;
 
-    font-size: clamp(50px, 10vw, 92px);
+    font-family: "JetBrains Mono", "Poppins", monospace;
+
+    font-size: clamp(46px, 9vw, 84px);
     font-weight: 700;
 
     line-height: 1;
 
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 
     font-variant-numeric: tabular-nums;
 
     white-space: nowrap;
+
+    text-shadow:
+        0 0 18px rgba(255, 183, 3, 0.45),
+        0 0 45px rgba(255, 183, 3, 0.15);
 }
 
 /* Keep every number in a fixed-width space */
@@ -289,9 +366,11 @@ body {
 
     text-align: center;
 
-    color: #2196f3;
+    color: #38bdf8;
 
     margin: 0;
+
+    animation: blink 1s steps(1) infinite;
 }
 
 .milliseconds {
@@ -303,12 +382,46 @@ body {
 
     font-size: 0.45em;
 
-    color: #78909c;
+    color: #6b7690;
 
     margin-left: 4px;
 
     font-variant-numeric: tabular-nums;
+
+    text-shadow: none;
 }
+
+.time-label {
+    margin-top: 12px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    color: #5b6580;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+}
+
+.time-label .label-dot {
+    color: #38bdf8;
+
+    font-size: 14px;
+
+    letter-spacing: 0;
+}
+
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.25; }
+}
+
+
 /* =========================================
    CONTROLS
 ========================================= */
@@ -334,7 +447,7 @@ body {
 
     border-radius: 13px;
 
-    color: white;
+    color: #0a0f1e;
 
     font-size: 14px;
 
@@ -357,7 +470,7 @@ body {
     transform: translateY(-4px);
 
     box-shadow:
-        0 8px 18px rgba(0, 0, 0, 0.18);
+        0 10px 22px rgba(0, 0, 0, 0.4);
 }
 
 .control-btn:active:not(:disabled) {
@@ -365,57 +478,45 @@ body {
 }
 
 .control-btn:disabled {
-    opacity: 0.45;
+    opacity: 0.35;
 
     cursor: not-allowed;
 }
 
 
-/* Start */
+/* Start — emerald, the "go" signal */
 
 .start-btn {
-    background:
-        linear-gradient(
-            135deg,
-            #00b09b,
-            #96c93d
-        );
+    background: linear-gradient(135deg, #34d399, #10b981);
+    color: #06281d;
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.28);
 }
 
 
-/* Pause */
+/* Pause — amber, matches the LED time display */
 
 .pause-btn {
-    background:
-        linear-gradient(
-            135deg,
-            #ff9800,
-            #ff5722
-        );
+    background: linear-gradient(135deg, #ffcb57, #ffb703);
+    color: #3a2600;
+    box-shadow: 0 6px 16px rgba(255, 183, 3, 0.25);
 }
 
 
-/* Lap */
+/* Lap — sky blue, matches the blinking separators */
 
 .lap-btn {
-    background:
-        linear-gradient(
-            135deg,
-            #2196f3,
-            #3f51b5
-        );
+    background: linear-gradient(135deg, #60d1fb, #38bdf8);
+    color: #05243a;
+    box-shadow: 0 6px 16px rgba(56, 189, 248, 0.25);
 }
 
 
-/* Reset */
+/* Reset — rose, clearly the destructive action */
 
 .reset-btn {
-    background:
-        linear-gradient(
-            135deg,
-            #ec407a,
-            #8e24aa
-        );
+    background: linear-gradient(135deg, #fb7185, #f43f5e);
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(244, 63, 94, 0.28);
 }
 
 
@@ -430,10 +531,12 @@ body {
 
     border-radius: 24px;
 
-    background: rgba(255, 255, 255, 0.94);
+    background: linear-gradient(180deg, #131c30, #0f1728);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
 
     box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.15);
+        0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
 .laps-header {
@@ -447,7 +550,7 @@ body {
 }
 
 .laps-header h2 {
-    color: #263238;
+    color: #f4f7fd;
 
     font-size: 20px;
 
@@ -459,11 +562,11 @@ body {
 }
 
 .laps-header h2 i {
-    color: #3f51b5;
+    color: #38bdf8;
 }
 
 .laps-header p {
-    color: #90a4ae;
+    color: #6b7690;
 
     font-size: 12px;
 
@@ -475,9 +578,9 @@ body {
 
     border-radius: 20px;
 
-    background: #eef2ff;
+    background: rgba(56, 189, 248, 0.14);
 
-    color: #3f51b5;
+    color: #7dd3fc;
 
     font-size: 12px;
 
@@ -503,13 +606,13 @@ body {
 }
 
 .laps-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: rgba(255, 255, 255, 0.04);
 
     border-radius: 10px;
 }
 
 .laps-container::-webkit-scrollbar-thumb {
-    background: #90caf9;
+    background: #2b3959;
 
     border-radius: 10px;
 }
@@ -530,15 +633,15 @@ body {
 
     border-radius: 12px;
 
-    background: #f7f9fc;
+    background: rgba(255, 255, 255, 0.03);
 
-    border: 1px solid #edf0f5;
+    border: 1px solid rgba(255, 255, 255, 0.06);
 
     animation: slideIn 0.3s ease;
 }
 
 .lap-number {
-    color: #3f51b5;
+    color: #38bdf8;
 
     font-weight: 700;
 
@@ -546,7 +649,7 @@ body {
 }
 
 .lap-time {
-    color: #263238;
+    color: #e8edf7;
 
     font-weight: 600;
 
@@ -556,7 +659,7 @@ body {
 }
 
 .lap-split {
-    color: #78909c;
+    color: #6b7690;
 
     font-size: 12px;
 
@@ -573,7 +676,7 @@ body {
 
     text-align: center;
 
-    color: #90a4ae;
+    color: #6b7690;
 }
 
 .empty-laps i {
@@ -581,7 +684,7 @@ body {
 
     margin-bottom: 12px;
 
-    color: #b0bec5;
+    color: #3a4562;
 }
 
 .empty-laps p {
@@ -589,7 +692,7 @@ body {
 
     font-weight: 600;
 
-    color: #607d8b;
+    color: #8b96ad;
 }
 
 .empty-laps span {
@@ -610,7 +713,7 @@ footer {
 
     text-align: center;
 
-    color: white;
+    color: #6b7690;
 
     font-size: 12px;
 }
@@ -619,14 +722,18 @@ footer p {
     margin-bottom: 4px;
 
     font-weight: 500;
+
+    color: #a7b1c6;
 }
 
 footer i {
     margin-right: 4px;
+
+    color: #ffb703;
 }
 
 footer span {
-    opacity: 0.7;
+    opacity: 0.8;
 
     font-size: 10px;
 }
@@ -761,30 +868,4 @@ footer span {
         font-size: 17px;
     }
 
-}
-
-body {
-    min-height: 100vh;
-    width: 100%;
-
-    font-family: "Poppins", sans-serif;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 30px 15px;
-
-    overflow-x: hidden;
-
-    background:
-        linear-gradient(
-            135deg,
-            #071952,
-            #088395,
-            #35a29f,
-            #f9f871
-        );
-
-    position: relative;
 }
