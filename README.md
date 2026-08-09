@@ -20,4 +20,3 @@ Create an interactive stopwatch application that allows users to start, pause, a
 - Record and display lap times
 - Accurate time measurement
 - User-friendly and responsive interface
-
